@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.rodrigo.rodriservices.domain.enums.TipoCliente;
 
 @Entity
@@ -30,6 +31,7 @@ public class Cliente implements Serializable {
 							 * O atributo internamente é armazenado como um inteiro, mas para o sistema a
 							 * classe irá expor um atributo 'TipoCliente'; ***Prestar atenção quanto aos atributos 'tipo'
 							 */
+	@JsonManagedReference
 	@OneToMany(mappedBy="cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 
