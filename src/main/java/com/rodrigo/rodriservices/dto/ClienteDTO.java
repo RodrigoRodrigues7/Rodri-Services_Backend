@@ -2,29 +2,36 @@ package com.rodrigo.rodriservices.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.rodrigo.rodriservices.domain.Categoria;
+import com.rodrigo.rodriservices.domain.Cliente;
 
-public class CategoriaDTO implements Serializable {
+public class ClienteDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
 	private Integer id;
 	
 	@NotEmpty(message="Preenchimento do Nome é Obrigatório!")
-	@Length(min=5, max=80, message="O tamanho deve estar entre 5 e 80 caracteres!")
+	@Length(min=15, max=120, message="O Nome deve ter entre 15 e 120 caractéres!")
 	private String nome;
-
-	public CategoriaDTO() {
+	
+	@NotEmpty(message="Preenchimento de Email é Obrigatório!")
+	@Email(message="Email Inválido!")
+	private String email;
+	
+	public ClienteDTO() {
 	}
 
-	public CategoriaDTO(Categoria obj) {
+	public ClienteDTO(Cliente obj) {
 		id = obj.getId();
 		nome = obj.getNome();
+		email = obj.getEmail();
 	}
 	
+
 	public Integer getId() {
 		return id;
 	}
@@ -41,4 +48,12 @@ public class CategoriaDTO implements Serializable {
 		this.nome = nome;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 }
