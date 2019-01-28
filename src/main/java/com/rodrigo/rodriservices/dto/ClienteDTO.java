@@ -8,14 +8,16 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.rodrigo.rodriservices.domain.Cliente;
+import com.rodrigo.rodriservices.services.validation.ClienteUpdate;
 
+@ClienteUpdate
 public class ClienteDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
 	
 	@NotEmpty(message="Preenchimento do Nome é Obrigatório!")
-	@Length(min=15, max=120, message="O Nome deve ter entre 15 e 120 caractéres!")
+	@Length(min=5, max=120, message="O Nome deve ter entre 5 e 120 caractéres!")
 	private String nome;
 	
 	@NotEmpty(message="Preenchimento de Email é Obrigatório!")
