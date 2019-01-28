@@ -1,5 +1,6 @@
 package com.rodrigo.rodriservices.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.rodrigo.rodriservices.domain.Cliente;
 import com.rodrigo.rodriservices.dto.ClienteDTO;
+import com.rodrigo.rodriservices.dto.ClienteNewDTO;
 import com.rodrigo.rodriservices.services.ClienteService;
 
 /* Essa classe será um controlador REST */
@@ -31,6 +34,17 @@ public class ClienteResource {
 	public ResponseEntity<Cliente> find(@PathVariable Integer id) {
 		Cliente obj = service.findIdCliente(id);
 		return ResponseEntity.ok().body(obj);
+	}
+
+	// Método de Cadastrar um cliente
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> insertCategoria(@Valid @RequestBody ClienteNewDTO objDto) {
+
+		Cliente obj = service.fromDTO(objDto);
+		obj = service.insert(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+
+		return ResponseEntity.created(uri).build();
 	}
 
 	// Método de Atualizar uma cliente
@@ -74,3 +88,9 @@ public class ClienteResource {
 	}
 
 }
+
+
+
+
+
+
