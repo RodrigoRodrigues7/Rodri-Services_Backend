@@ -55,7 +55,7 @@ public class RodriServicesApplication implements CommandLineRunner {
 	private PagamentoRepository pagamentoRepository;
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(RodriServicesApplication.class, args);
 	}
@@ -119,8 +119,7 @@ public class RodriServicesApplication implements CommandLineRunner {
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 
-		Cliente cli1 = new Cliente(null, "Maria Aparecida", "mariaSilva@gmail.com", "066.643.864-22",
-				TipoCliente.PESSOAFISICA);
+		Cliente cli1 = new Cliente(null, "Maria Aparecida", "mariaSilva@gmail.com", "066.643.864-22", TipoCliente.PESSOAFISICA);
 		cli1.getTelefones().addAll(Arrays.asList("3338-2381", "3574-2344"));
 
 		Endereco end1 = new Endereco(null, "Rua Flores", "123", "Apto 101", "Jardim Brasil", "60.780-540", cli1, c1);
