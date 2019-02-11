@@ -9,9 +9,11 @@
 		<version>2.1.1.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
+	
 	<groupId>com.rodrigo.rodri-services</groupId>
 	<artifactId>Rodri-Services</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	
 	<name>Rodri-Services</name>
 	<description>Estudo de Caso Java para Curso de Modelagem Conceitual com UML.</description>
 
