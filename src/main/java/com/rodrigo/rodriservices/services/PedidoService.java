@@ -19,19 +19,20 @@ import com.rodrigo.rodriservices.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class PedidoService {
-
-	@Autowired
-	private PedidoRepository repo;
 	
 	@Autowired
 	private BoletoService boletoService;
 	@Autowired
 	private ProdutoService produtoService;
+	@Autowired
+	private ClienteService clienteService;
 	
 	@Autowired
 	private PagamentoRepository pagamentoRepo;	
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepo;
+	@Autowired
+	private PedidoRepository repo;
 	
 
 	public Pedido findIdPedido(Integer id) {
@@ -44,6 +45,7 @@ public class PedidoService {
 	public Pedido insert(Pedido obj) {
 		obj.setId(null);
 		obj.setInstante(new Date());
+		obj.setCliente(clienteService.findIdCliente(obj.getCliente().getId()));
 		obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 		obj.getPagamento().setPedido(obj);
 		if(obj.getPagamento() instanceof PagamentoComBoleto) {
@@ -55,11 +57,13 @@ public class PedidoService {
 		pagamentoRepo.save(obj.getPagamento());
 		for (ItemPedido ip : obj.getItens()) {
 			ip.setDesconto(0.0);
-			ip.setPreco(produtoService.findIdProduto(ip.getProduto().getId()).getPreco());
+			ip.setProduto(produtoService.findIdProduto(ip.getProduto().getId()));
+			ip.setPreco(ip.getProduto().getPreco());
 			ip.setPedido(obj);
 		}
 		
 		itemPedidoRepo.saveAll(obj.getItens());
+		System.out.println(obj);
 		return obj;
 	}
 	
