@@ -17,6 +17,9 @@ public class ClienteNewDTO implements Serializable {
 	@Length(min=5, max=120, message="O Tamanho deve ser entre 5 e 120 caracteres")
 	private String nome;
 	
+	@NotEmpty(message="É Obrigatório o Preencimento da Senha")
+	private String senha;
+	
 	@NotEmpty(message="É Obrigatório o Preencimento do Email")
 	@Email(message="Email Inválido")
 	private String email;
@@ -52,6 +55,14 @@ public class ClienteNewDTO implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public String getEmail() {
