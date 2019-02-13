@@ -29,6 +29,7 @@ import com.rodrigo.rodriservices.domain.PagamentoComCartao;
 import com.rodrigo.rodriservices.domain.Pedido;
 import com.rodrigo.rodriservices.domain.Produto;
 import com.rodrigo.rodriservices.domain.enums.EstadoPagamento;
+import com.rodrigo.rodriservices.domain.enums.Perfil;
 import com.rodrigo.rodriservices.domain.enums.TipoCliente;
 
 @Service
@@ -119,13 +120,19 @@ public class DBService {
 		Cliente cli1 = new Cliente(null, "Maria Aparecida", pe.encode("123123"), "rodrigo97.carvalho@gmail.com", "066.643.864-22", TipoCliente.PESSOAFISICA);
 		cli1.getTelefones().addAll(Arrays.asList("3338-2381", "3574-2344"));
 
+		Cliente cli2 = new Cliente(null, "Ana Costa", pe.encode("123123"), "rodrigo997.carvalho@gmail.com", "075.654.344-55", TipoCliente.PESSOAFISICA);
+		cli2.getTelefones().addAll(Arrays.asList("3456-4322"));
+		cli2.addPerfil(Perfil.ADMIN);
+		
 		Endereco end1 = new Endereco(null, "Rua Flores", "123", "Apto 101", "Jardim Brasil", "60.780-540", cli1, c1);
 		Endereco end2 = new Endereco(null, "Rua Matos", "1023", "Sala 836", "Centro", "70.890-222", cli1, c2);
+		Endereco end3 = new Endereco(null, "Avenida Abdias de Carvalho", "233", null, "Torrões", "27.765-832", cli2, c2);
 
 		cli1.getEnderecos().addAll(Arrays.asList(end1, end2));
-
-		clienteRepository.saveAll(Arrays.asList(cli1));
-		enderecoRepository.saveAll(Arrays.asList(end1, end2));
+		cli2.getEnderecos().addAll(Arrays.asList(end3));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
+		enderecoRepository.saveAll(Arrays.asList(end1, end2, end3));
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
