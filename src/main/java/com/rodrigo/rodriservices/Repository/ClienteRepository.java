@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.rodrigo.rodriservices.domain.Cliente;
 
-
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 	

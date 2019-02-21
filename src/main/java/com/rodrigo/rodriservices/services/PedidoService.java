@@ -6,15 +6,21 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.rodrigo.rodriservices.Repository.ItemPedidoRepository;
 import com.rodrigo.rodriservices.Repository.PagamentoRepository;
 import com.rodrigo.rodriservices.Repository.PedidoRepository;
+import com.rodrigo.rodriservices.domain.Cliente;
 import com.rodrigo.rodriservices.domain.ItemPedido;
 import com.rodrigo.rodriservices.domain.PagamentoComBoleto;
 import com.rodrigo.rodriservices.domain.Pedido;
 import com.rodrigo.rodriservices.domain.enums.EstadoPagamento;
+import com.rodrigo.rodriservices.security.UserSpringSecurity;
+import com.rodrigo.rodriservices.services.exceptions.AuthorizationException;
 import com.rodrigo.rodriservices.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -71,6 +77,16 @@ public class PedidoService {
 		return obj;
 	}
 	
+	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		UserSpringSecurity user = UserService.authenticated();
+		if(user ==null) {
+			throw new AuthorizationException("Acesso Negado!");
+		}
+		
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Cliente cliente = clienteService.findIdCliente(user.getId());
+		return repo.findByCliente(cliente, pageRequest);
+	}
 
 }
 
