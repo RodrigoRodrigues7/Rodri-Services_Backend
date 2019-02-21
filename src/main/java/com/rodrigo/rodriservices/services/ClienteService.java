@@ -16,9 +16,12 @@ import com.rodrigo.rodriservices.Repository.EnderecoRepository;
 import com.rodrigo.rodriservices.domain.Cidade;
 import com.rodrigo.rodriservices.domain.Cliente;
 import com.rodrigo.rodriservices.domain.Endereco;
+import com.rodrigo.rodriservices.domain.enums.Perfil;
 import com.rodrigo.rodriservices.domain.enums.TipoCliente;
 import com.rodrigo.rodriservices.dto.ClienteDTO;
 import com.rodrigo.rodriservices.dto.ClienteNewDTO;
+import com.rodrigo.rodriservices.security.UserSpringSecurity;
+import com.rodrigo.rodriservices.services.exceptions.AuthorizationException;
 import com.rodrigo.rodriservices.services.exceptions.DataIntegrityException;
 import com.rodrigo.rodriservices.services.exceptions.ObjectNotFoundException;
 
@@ -33,6 +36,12 @@ public class ClienteService {
 	private EnderecoRepository endRepo;
 
 	public Cliente findIdCliente(Integer id) {
+		
+		UserSpringSecurity user = UserService.authenticated();
+		if(user == null || !user.hasHole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso Negado!");
+		}
+		
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não Encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
