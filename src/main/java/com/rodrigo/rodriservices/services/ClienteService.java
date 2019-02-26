@@ -46,6 +46,9 @@ public class ClienteService {
 	@Value("${img.prefix.client.profile}")
 	private String prefix;
 	
+	@Value("${img.profile.size}")
+	private Integer profileSize;
+	
 	public Cliente findIdCliente(Integer id) {
 		
 		UserSpringSecurity user = UserService.authenticated();
@@ -115,7 +118,7 @@ public class ClienteService {
 		newObj.setEmail(obj.getEmail());
 	}
 	
-	public URI uploadProfilePicture(MultipartFile multiPartFile) {
+public URI uploadProfilePicture(MultipartFile multiPartFile) {
 		
 		UserSpringSecurity user = UserService.authenticated();
 		if(user == null) {
@@ -123,6 +126,9 @@ public class ClienteService {
 		}
 		
 		BufferedImage jpgImage = imageService.getJpgImageFromFile(multiPartFile);
+		jpgImage = imageService.cropSquare(jpgImage);
+		jpgImage = imageService.resize(jpgImage, profileSize);
+		
 		String fileName = prefix + user.getId() + ".jpg";
 		
 		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
