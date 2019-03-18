@@ -118,7 +118,7 @@ public class ClienteService {
 		newObj.setEmail(obj.getEmail());
 	}
 	
-public URI uploadProfilePicture(MultipartFile multiPartFile) {
+	public URI uploadProfilePicture(MultipartFile multiPartFile) {
 		
 		UserSpringSecurity user = UserService.authenticated();
 		if(user == null) {
